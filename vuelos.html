@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de vuelos</title>
+    <link rel="stylesheet" href="estados.css">
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <input type="checkbox" id="btn-menu" class="visually-hidden">
+            <label for="btn-menu" id="menu-icon">☰</label>
+            <nav class="menu">
+                <label for="btn-menu" class="close-menu">✖️</label>
+                <br>
+                <a href="inicio.php">Inicio</a>
+                <a href="vuelos.html">Registrar nuevo vuelo</a>
+                <a href="mostrar_vuelos.php">mostrar vuelos proximos</a>
+                <a href="salir.php">Salir</a>
+            </nav>
+        </div>
+    </header>
+    <form method="POST" action="guardar_vuelo.php">
+        <div class="container">
+            <label for="estado">Selecciona un estado de México:</label>
+            <select id="estado" name="estado" onchange="cargarAeropuerto()">
+                <option value="seleccionar">Seleccionar estado</option>
+                <option value="aguascalientes">Aguascalientes</option>
+                <option value="bajacalifornia">Baja California</option>
+                <!-- Agrega más estados aquí -->
+            </select>
+
+            <label for="aeropuerto">Aeropuerto principal:</label>
+            <select id="aeropuerto" name="aeropuerto">
+                <!-- Las opciones de aeropuertos se cargarán dinámicamente aquí -->
+            </select>
+
+            <script>
+                function cargarAeropuerto() {
+                    var estadoSelect = document.getElementById("estado");
+                    var aeropuertoSelect = document.getElementById("aeropuerto");
+
+                    // Definir los aeropuertos principales para cada estado de México
+                    var aeropuertos = {
+                        seleccionar: [], // Agrega un array vacío para la opción "Seleccionar estado"
+                        aguascalientes: ["Aeropuerto Internacional Lic. Jesús Terán Peredo (AGU)"],
+                        bajacalifornia: ["Aeropuerto Internacional General Abelardo L. Rodríguez (TIJ)"],
+                        // Agrega más aeropuertos para otros estados aquí
+                    };
+
+                    // Limpiar las opciones anteriores de aeropuerto
+                    aeropuertoSelect.innerHTML = "";
+
+                    // Obtener el estado seleccionado
+                    var estadoSeleccionado = estadoSelect.value;
+
+                    // Obtener la lista de aeropuertos para el estado seleccionado
+                    var aeropuertosEstado = aeropuertos[estadoSeleccionado];
+
+                    // Llenar el menú desplegable de aeropuerto con las opciones adecuadas
+                    for (var i = 0; i < aeropuertosEstado.length; i++) {
+                        var option = document.createElement("option");
+                        option.text = aeropuertosEstado[i];
+                        aeropuertoSelect.add(option);
+                    }
+                }
+
+                cargarAeropuerto(); // Cargar el aeropuerto principal inicial al cargar la página
+            </script>
+
+            <label for="fecha_salida">Fecha de salida:</label>
+            
+            <input type="date" id="fecha_salida" name="fecha_salida" required>
+
+            <label for="fecha_regreso">Fecha de regreso:</label>
+            <input type="date" id="fecha_regreso" name="fecha_regreso" required>
+
+            <input type="submit" value="Guardar vuelo">
+        </div>
+    </form>
+</body>
+</html>
